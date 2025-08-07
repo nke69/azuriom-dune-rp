@@ -28,6 +28,7 @@ Route::prefix('houses')->name('dune-rp.admin.houses.')->middleware('can:dune-rp.
 // ===== GESTION DES PERSONNAGES =====
 Route::prefix('characters')->name('dune-rp.admin.characters.')->middleware('can:dune-rp.characters.manage')->group(function () {
     Route::get('/', [AdminCharacterController::class, 'index'])->name('index');
+    Route::get('/create', [AdminCharacterController::class, 'create'])->name('create');
     Route::get('/pending', [AdminCharacterController::class, 'pending'])->name('pending');
     Route::get('/{character}', [AdminCharacterController::class, 'show'])->name('show');
     Route::get('/{character}/edit', [AdminCharacterController::class, 'edit'])->name('edit');
