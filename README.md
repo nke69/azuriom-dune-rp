@@ -1,2 +1,2 @@
 # azuriom-dune-rp
-lugin RP complet pour Dune Awakening - Compatible Azuriom 1.25+
+Plugin RP complet pour Dune Awakening - Compatible Azuriom 1.25+
