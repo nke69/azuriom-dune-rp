@@ -7,7 +7,7 @@
   "authors": [
     "nke69"
   ],
-  "azuriom_api": "1.25.0",
+  "azuriom_api": "1.2.0",
   "providers": [
     "\\Azuriom\\Plugin\\DuneRp\\Providers\\DuneRpServiceProvider",
     "\\Azuriom\\Plugin\\DuneRp\\Providers\\RouteServiceProvider"
