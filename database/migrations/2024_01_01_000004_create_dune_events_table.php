@@ -6,16 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('dune_rp_events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('organizer_id');
+            $table->unsignedInteger('organizer_id');
             $table->unsignedBigInteger('organizer_house_id')->nullable();
             $table->timestamp('event_date');
             $table->string('location')->nullable();
@@ -34,10 +31,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('dune_rp_events');
     }
