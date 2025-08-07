@@ -4,16 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    public function up()
+return new class extends Migration {
+    public function up(): void
     {
         Schema::create('dune_rp_events', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // BIGINT UNSIGNED
             $table->string('title');
             $table->text('description')->nullable();
-            $table->unsignedInteger('organizer_id');
-            $table->unsignedBigInteger('organizer_house_id')->nullable();
+            $table->unsignedInteger('organizer_id'); // users.id = INT UNSIGNED
+            $table->unsignedBigInteger('organizer_house_id')->nullable(); // dune_rp_houses.id = BIGINT UNSIGNED
             $table->timestamp('event_date');
             $table->string('location')->nullable();
             $table->integer('max_participants')->nullable();
@@ -26,12 +25,13 @@ return new class extends Migration
 
             $table->foreign('organizer_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('organizer_house_id')->references('id')->on('dune_rp_houses')->onDelete('set null');
+
             $table->index(['event_date', 'status']);
             $table->index(['organizer_house_id', 'event_type']);
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('dune_rp_events');
     }
