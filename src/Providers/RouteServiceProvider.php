@@ -1,26 +1,36 @@
 <?php
+// ========================================
+// src/Providers/RouteServiceProvider.php
+// ========================================
 
 namespace Azuriom\Plugin\DuneRp\Providers;
 
 use Azuriom\Extensions\Plugin\BaseRouteServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends BaseRouteServiceProvider
 {
     /**
-     * Define the plugin routes.
+     * Define the routes for the application.
      */
-    protected function loadRoutes(): void
+    public function loadRoutes(): void
     {
-        $this->routes();
-    }
+        // Routes publiques
+        Route::prefix($this->plugin->id)
+            ->middleware('web')
+            ->name($this->plugin->id.'.')
+            ->group(plugin_path($this->plugin->id.'/routes/web.php'));
 
-    /**
-     * Define the routes for the plugin.
-     */
-    protected function routes(): void
-    {
-        $this->loadRoutesFrom(plugin_path('DuneRp/routes/web.php'));
-        $this->loadRoutesFrom(plugin_path('DuneRp/routes/admin.php'));
-        $this->loadRoutesFrom(plugin_path('DuneRp/routes/api.php'));
+        // Routes admin - IMPORTANT: le préfixe admin/dune-rp est ajouté ici
+        Route::prefix('admin/'.$this->plugin->id)
+            ->middleware('admin-access')
+            ->name('admin.'.$this->plugin->id.'.')
+            ->group(plugin_path($this->plugin->id.'/routes/admin.php'));
+
+        // Routes API
+        Route::prefix('api/'.$this->plugin->id)
+            ->middleware('api')
+            ->name('api.'.$this->plugin->id.'.')
+            ->group(plugin_path($this->plugin->id.'/routes/api.php'));
     }
 }
