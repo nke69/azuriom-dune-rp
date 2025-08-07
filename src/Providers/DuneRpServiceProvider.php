@@ -17,7 +17,7 @@ class DuneRpServiceProvider extends BasePluginServiceProvider
      */
     public function register(): void
     {
-        $this->registerMiddlewares();
+        // Pas besoin de registerMiddlewares() ici
     }
 
     /**
@@ -65,6 +65,7 @@ class DuneRpServiceProvider extends BasePluginServiceProvider
 
     /**
      * Return the admin navigations routes to register in the dashboard.
+     * IMPORTANT: Les routes admin utilisent le préfixe 'admin.dune-rp.'
      */
     protected function adminNavigation(): array
     {
@@ -73,17 +74,17 @@ class DuneRpServiceProvider extends BasePluginServiceProvider
                 'name' => trans('dune-rp::admin.nav.title'),
                 'type' => 'dropdown',
                 'icon' => 'bi bi-globe-americas',
-                'route' => 'dune-rp.admin.*',
+                'route' => 'admin.dune-rp.*',  // Changé ici
                 'items' => [
-                    'dune-rp.admin.houses.index' => [
+                    'admin.dune-rp.houses.index' => [  // Changé ici
                         'name' => trans('dune-rp::admin.nav.houses'),
                         'permission' => 'dune-rp.houses.manage',
                     ],
-                    'dune-rp.admin.characters.index' => [
+                    'admin.dune-rp.characters.index' => [  // Changé ici
                         'name' => trans('dune-rp::admin.nav.characters'),
                         'permission' => 'dune-rp.characters.manage',
                     ],
-                    'dune-rp.admin.events.index' => [
+                    'admin.dune-rp.events.index' => [  // Changé ici
                         'name' => trans('dune-rp::admin.nav.events'),
                         'permission' => 'dune-rp.events.manage',
                     ],
