@@ -50,6 +50,51 @@ class AdminCharacterController extends Controller
         return view('dune-rp::admin.characters.index', compact('characters', 'houses', 'stats'));
     }
 
+/**
+ * Show the form for creating a new character.
+ */
+public function create()
+{
+    $users = User::orderBy('name')->get();
+    $houses = House::where('is_active', true)->orderBy('name')->get();
+    
+    return view('dune-rp::admin.characters.create', compact('users', 'houses'));
+}
+
+/**
+ * Store a newly created character.
+ */
+public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => ['required', 'exists:users,id', 'unique:dune_rp_characters,user_id'],
+        'name' => ['required', 'string', 'max:100'],
+        'title' => ['nullable', 'string', 'max:100'],
+        'house_id' => ['nullable', 'exists:dune_rp_houses,id'],
+        'biography' => ['nullable', 'string', 'max:5000'],
+        'birthworld' => ['nullable', 'string', 'max:100'],
+        'age' => ['nullable', 'integer', 'min:1', 'max:500'],
+        'status' => ['required', 'in:alive,missing,deceased,exiled'],
+        'spice_addiction_level' => ['required', 'integer', 'min:0', 'max:4'],
+        'special_abilities' => ['nullable', 'array'],
+        'special_abilities.*' => ['string', 'max:100'],
+        'avatar' => ['nullable', 'image', 'max:2048'],
+        'is_public' => ['boolean'],
+        'is_approved' => ['boolean'],
+    ]);
+
+    $character = new Character($request->validated());
+    
+    if ($request->hasFile('avatar')) {
+        $character->storeImage($request->file('avatar'));
+    }
+
+    $character->save();
+
+    return redirect()->route('dune-rp.admin.characters.index')
+                   ->with('success', trans('dune-rp::admin.characters.created'));
+}    
+
     /**
      * Display pending characters for approval.
      */
